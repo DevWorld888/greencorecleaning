@@ -1,26 +1,77 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* GreenCoreCleaning design tokens. Values are owner-approved; see PRODUCT.md. */
+@theme {
+  /* Brand colours */
+  --color-primary: #0f4557; /* headings, navigation, corporate UI */
+  --color-secondary: #509948; /* accents, icons, large display text (3.5:1, large text only) */
+  --color-action: #3f7d38; /* button fills and small green text (5.0:1, AA on white) */
+  --color-secondary-light: #8ccb80; /* green on primary backgrounds (5.4:1 on primary) */
+  --color-sky: #dceef7;
+  --color-mint: #f0f8ed;
+  --color-charcoal: #263238;
+
+  /* One radius family */
+  --radius-control: 12px;
+  --radius-card: 16px;
+  --radius-media: 24px;
+
+  /* One soft, primary-tinted shadow */
+  --shadow-soft:
+    0 2px 6px -2px rgb(15 69 87 / 0.08), 0 16px 40px -16px rgb(15 69 87 / 0.22);
+
+  /* Site container (max-w-site) */
+  --container-site: 80rem;
 }
 
+/* Fonts are loaded by next/font in app/layout.tsx */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-schibsted), var(--font-geist), ui-sans-serif,
+    system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    color-scheme: light;
+  }
+
+  body {
+    background-color: var(--color-white);
+    color: var(--color-charcoal);
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3 {
+    color: var(--color-primary);
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--color-sky);
+    color: var(--color-primary);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-action);
+    outline-offset: 3px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
