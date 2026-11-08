@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { Reveal } from "@/components/motion/Reveal";
+import { QuoteLink } from "@/components/quote/QuoteLink";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
 import { CheckBadge } from "@/components/ui/CheckBadge";
 import {
@@ -90,14 +91,13 @@ export function FeaturedServices() {
                     </ul>
 
                     <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
-                      {/* Quote prefill by service arrives with the full quote form step. */}
-                      <a
-                        href="#quote"
+                      <QuoteLink
+                        service={service.slug}
                         className="relative inline-flex h-12 items-center gap-2 overflow-hidden rounded-control bg-action px-6 font-semibold text-white before:absolute before:inset-0 before:bg-primary before:opacity-0 before:transition-opacity hover:before:opacity-20"
                       >
                         <span className="relative">Get a free quote</span>
                         <ArrowIcon className="relative size-4" />
-                      </a>
+                      </QuoteLink>
                       <Link
                         href={serviceHref(service.slug)}
                         className="inline-flex items-center gap-2 font-semibold text-primary underline-offset-4 hover:underline"

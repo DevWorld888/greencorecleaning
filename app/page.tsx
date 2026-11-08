@@ -1,6 +1,9 @@
 import { CleaningStandards } from "@/components/home/CleaningStandards";
+import { Faq } from "@/components/home/Faq";
 import { FeaturedServices } from "@/components/home/FeaturedServices";
 import { Hero } from "@/components/home/Hero";
+import { QuoteSection } from "@/components/home/QuoteSection";
+import { ServiceAreas } from "@/components/home/ServiceAreas";
 
 export default function Home() {
   return (
@@ -8,6 +11,9 @@ export default function Home() {
       <Hero />
       <FeaturedServices />
       <CleaningStandards />
+      <ServiceAreas />
+      <Faq />
+      <QuoteSection />
     </main>
   );
 }

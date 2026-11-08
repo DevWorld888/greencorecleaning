@@ -11,6 +11,10 @@
   --color-mint: #f0f8ed;
   --color-charcoal: #263238;
 
+  /* Service-area map */
+  --color-water: #cfe5f0;
+  --color-land: #f8fbf6;
+
   /* One radius family */
   --radius-control: 12px;
   --radius-card: 16px;
@@ -63,6 +67,24 @@
     outline: 2px solid var(--color-action);
     outline-offset: 3px;
   }
+}
+
+/* FAQ accordion: animate <details> height where supported (Chromium);
+   other browsers open instantly, which is a fine fallback. */
+:root {
+  interpolate-size: allow-keywords;
+}
+
+.faq-item::details-content {
+  block-size: 0;
+  overflow: clip;
+  transition:
+    block-size 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    content-visibility 0.35s allow-discrete;
+}
+
+.faq-item[open]::details-content {
+  block-size: auto;
 }
 
 @media (prefers-reduced-motion: reduce) {
