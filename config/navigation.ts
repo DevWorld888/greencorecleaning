@@ -16,3 +16,15 @@ export const mainNav: NavItem[] = [
 ];
 
 export const navCta: NavItem = { label: "Let's Talk", href: "/contact" };
+
+// Footer. Services and service areas come from their own config files, so
+// only the company and legal links live here.
+export const footerCompanyNav: NavItem[] = [
+  { label: "About Us", href: "/about" },
+  { label: "Projects", href: "/projects" },
+  { label: "Blog", href: "/blog" },
+  { label: "FAQ", href: "/#faq" },
+  { label: "Contact", href: "/contact" },
+];
+
+export const legalNav: NavItem[] = [{ label: "Privacy Policy", href: "/privacy-policy" }];

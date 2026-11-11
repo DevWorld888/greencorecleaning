@@ -15,6 +15,16 @@ export function quoteHref({ service, suburb }: QuotePrefill) {
   return `/${query ? `?${query}` : ""}#quote`;
 }
 
+/**
+ * Whether the quote form is on the page the visitor is looking at. Checking
+ * that it exists isn't enough: Next.js keeps previously visited pages in the
+ * DOM, hidden, so the homepage form can be present while on /services.
+ */
+export function isQuoteFormVisible() {
+  const form = document.getElementById("quote");
+  return Boolean(form && form.getClientRects().length > 0);
+}
+
 /** Client-side: update the URL, tell the form to read it, scroll to it. */
 export function goToQuote(prefill: QuotePrefill) {
   window.history.pushState(null, "", quoteHref(prefill));

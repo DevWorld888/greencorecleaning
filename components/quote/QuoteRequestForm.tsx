@@ -1,15 +1,42 @@
 "use client";
 
 import Link from "next/link";
-import { startTransition, useActionState, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import {
+  startTransition,
+  useActionState,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { submitQuote, type QuoteState } from "@/app/actions/quote";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
-import { fieldClass, SelectChevron, selectClass } from "@/components/ui/form";
-import { extraFields, OTHER_SUBURB, propertyTypes, serviceExtraFields } from "@/config/quote-form";
+import { SpamTraps } from "@/components/ui/SpamTraps";
+import {
+  FieldError,
+  FieldIdPrefix,
+  SelectField,
+  TextField,
+} from "@/components/ui/fields";
+import {
+  extraFields,
+  OTHER_SUBURB,
+  propertyTypes,
+  serviceExtraFields,
+} from "@/config/quote-form";
 import { serviceAreas } from "@/config/service-areas";
-import { serviceCategories, services, servicesByCategory } from "@/config/services";
+import {
+  serviceCategories,
+  services,
+  servicesByCategory,
+} from "@/config/services";
 import { QUOTE_PREFILL_EVENT } from "@/lib/quote-prefill";
-import { quoteSchema, toFieldErrors, type QuoteFieldErrors, type QuoteFieldName } from "@/lib/quote-validation";
+import {
+  quoteSchema,
+  toFieldErrors,
+  type QuoteFieldErrors,
+  type QuoteFieldName,
+} from "@/lib/quote-validation";
 
 const initialState: QuoteState = { status: "idle" };
 
@@ -36,13 +63,19 @@ function parsePrefill(search: string) {
 }
 
 export function QuoteRequestForm() {
-  const [state, formAction, isPending] = useActionState(submitQuote, initialState);
+  const [state, formAction, isPending] = useActionState(
+    submitQuote,
+    initialState,
+  );
   const formRef = useRef<HTMLFormElement>(null);
-  const startedAtRef = useRef<HTMLInputElement>(null);
   const successRef = useRef<HTMLDivElement>(null);
 
   // Service and suburb are controlled: they decide which fields appear.
-  const search = useSyncExternalStore(subscribeToPrefill, () => window.location.search, () => "");
+  const search = useSyncExternalStore(
+    subscribeToPrefill,
+    () => window.location.search,
+    () => "",
+  );
   const [appliedSearch, setAppliedSearch] = useState("");
   const [service, setService] = useState("");
   const [suburb, setSuburb] = useState("");
@@ -60,22 +93,22 @@ export function QuoteRequestForm() {
   const [attempted, setAttempted] = useState(false);
 
   useEffect(() => {
-    if (startedAtRef.current) startedAtRef.current.value = String(Date.now());
-  }, []);
-
-  useEffect(() => {
     if (state.status === "success") successRef.current?.focus();
   }, [state.status]);
 
-  const serverErrors = state.status === "error" ? state.fieldErrors ?? {} : {};
+  const serverErrors =
+    state.status === "error" ? (state.fieldErrors ?? {}) : {};
   function errorFor(name: QuoteFieldName) {
-    if (attempted || touched.has(name)) return errors[name] ?? serverErrors[name];
+    if (attempted || touched.has(name))
+      return errors[name] ?? serverErrors[name];
     return undefined;
   }
 
   function validate() {
     if (!formRef.current) return {};
-    const result = quoteSchema.safeParse(Object.fromEntries(new FormData(formRef.current)));
+    const result = quoteSchema.safeParse(
+      Object.fromEntries(new FormData(formRef.current)),
+    );
     return result.success ? {} : toFieldErrors(result.error);
   }
 
@@ -100,7 +133,8 @@ export function QuoteRequestForm() {
 
     const firstInvalid = Array.from(form.elements).find(
       (element): element is HTMLElement =>
-        element instanceof HTMLElement && (element as HTMLInputElement).name in nextErrors,
+        element instanceof HTMLElement &&
+        (element as HTMLInputElement).name in nextErrors,
     );
     if (firstInvalid) {
       firstInvalid.focus();
@@ -113,17 +147,33 @@ export function QuoteRequestForm() {
 
   if (state.status === "success") {
     return (
-      <div ref={successRef} tabIndex={-1} role="status" className="py-6 text-center outline-none sm:py-10">
+      <div
+        ref={successRef}
+        tabIndex={-1}
+        role="status"
+        className="py-6 text-center outline-none sm:py-10"
+      >
         <span className="mx-auto grid size-14 place-items-center rounded-full bg-mint text-action">
-          <svg aria-hidden="true" viewBox="0 0 20 20" className="size-7" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 20 20"
+            className="size-7"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
             <path d="m5 10.5 3.2 3L15 7" />
           </svg>
         </span>
         <h3 className="mt-6 text-2xl font-bold sm:text-3xl">
-          Thanks{state.firstName ? `, ${state.firstName}` : ""}. We&apos;ve got your request.
+          Thanks{state.firstName ? `, ${state.firstName}` : ""}. We&apos;ve got
+          your request.
         </h3>
         <p className="mx-auto mt-3 max-w-[42ch] leading-[1.6]">
-          We&apos;ll review the details and get back to you soon with your free, tailored quote.
+          We&apos;ll review the details and get back to you soon with your free,
+          tailored quote.
         </p>
       </div>
     );
@@ -132,279 +182,220 @@ export function QuoteRequestForm() {
   const extras = serviceExtraFields[service] ?? [];
 
   return (
-    <form ref={formRef} noValidate onSubmit={handleSubmit} onBlur={handleBlur} onChange={handleChange}>
-      {/* Spam traps: a field only bots fill in, and the time the form was opened. */}
-      <div aria-hidden="true" className="absolute -left-[9999px] size-px overflow-hidden">
-        <label htmlFor="quote-website">Website</label>
-        <input id="quote-website" name="website" type="text" tabIndex={-1} autoComplete="off" />
-      </div>
-      <input ref={startedAtRef} type="hidden" name="startedAt" />
+    <FieldIdPrefix value="quote">
+      <form
+        ref={formRef}
+        noValidate
+        onSubmit={handleSubmit}
+        onBlur={handleBlur}
+        onChange={handleChange}
+      >
+        <SpamTraps idPrefix="quote" />
 
-      <fieldset>
-        <legend className="font-display text-xl font-bold text-primary">About your clean</legend>
-        <div className="mt-5 grid gap-5 sm:grid-cols-2">
-          <SelectField
-            name="service"
-            label="Service"
-            value={service}
-            onChange={setService}
-            placeholder="Choose a service"
-            error={errorFor("service")}
-          >
-            {serviceCategories.map((category) => (
-              <optgroup key={category} label={category}>
-                {servicesByCategory(category).map((item) => (
-                  <option key={item.slug} value={item.slug}>
-                    {item.name}
-                  </option>
-                ))}
-              </optgroup>
-            ))}
-          </SelectField>
+        <fieldset>
+          <legend className="font-display text-xl font-bold text-primary">
+            About your clean
+          </legend>
+          <div className="mt-5 grid gap-5 sm:grid-cols-2">
+            <SelectField
+              name="service"
+              label="Service"
+              value={service}
+              onChange={setService}
+              placeholder="Choose a service"
+              error={errorFor("service")}
+            >
+              {serviceCategories.map((category) => (
+                <optgroup key={category} label={category}>
+                  {servicesByCategory(category).map((item) => (
+                    <option key={item.slug} value={item.slug}>
+                      {item.name}
+                    </option>
+                  ))}
+                </optgroup>
+              ))}
+            </SelectField>
 
-          <SelectField
-            name="suburb"
-            label="Suburb"
-            value={suburb}
-            onChange={setSuburb}
-            placeholder="Choose your suburb"
-            error={errorFor("suburb")}
-          >
-            {serviceAreas.map((area) => (
-              <option key={area.slug} value={area.slug}>
-                {area.name}
-              </option>
-            ))}
-            <option value={OTHER_SUBURB}>Other suburb</option>
-          </SelectField>
+            <SelectField
+              name="suburb"
+              label="Suburb"
+              value={suburb}
+              onChange={setSuburb}
+              placeholder="Choose your suburb"
+              error={errorFor("suburb")}
+            >
+              {serviceAreas.map((area) => (
+                <option key={area.slug} value={area.slug}>
+                  {area.name}
+                </option>
+              ))}
+              <option value={OTHER_SUBURB}>Other suburb</option>
+            </SelectField>
 
-          {suburb === OTHER_SUBURB && (
+            {suburb === OTHER_SUBURB && (
+              <div className="sm:col-span-2">
+                <TextField
+                  name="otherSuburb"
+                  label="Your suburb"
+                  autoComplete="address-level2"
+                  hint="We'll confirm whether we can service your area."
+                  error={errorFor("otherSuburb")}
+                />
+              </div>
+            )}
+
+            <SelectField
+              name="propertyType"
+              label="Property type"
+              placeholder="Choose a type"
+              error={errorFor("propertyType")}
+            >
+              {propertyTypes.map((type) => (
+                <option key={type} value={type}>
+                  {type}
+                </option>
+              ))}
+            </SelectField>
+
+            <TextField
+              name="preferredDate"
+              label="Preferred date"
+              type="date"
+              optional
+              error={errorFor("preferredDate")}
+            />
+
+            {extras.map((id) => {
+              const field = extraFields[id];
+              return field.kind === "select" ? (
+                <SelectField
+                  key={id}
+                  name={id}
+                  label={field.label}
+                  placeholder="Choose"
+                  optional={!field.required}
+                  error={errorFor(id)}
+                >
+                  {field.options.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </SelectField>
+              ) : (
+                <TextField
+                  key={id}
+                  name={id}
+                  label={field.label}
+                  type="date"
+                  optional={!field.required}
+                  error={errorFor(id)}
+                />
+              );
+            })}
+
             <div className="sm:col-span-2">
               <TextField
-                name="otherSuburb"
-                label="Your suburb"
-                autoComplete="address-level2"
-                hint="We'll confirm whether we can service your area."
-                error={errorFor("otherSuburb")}
+                name="details"
+                label="Additional details"
+                multiline
+                optional
+                hint="Anything we should know: access, pets, areas that need extra attention or questions for us."
+                error={errorFor("details")}
               />
             </div>
-          )}
+          </div>
+        </fieldset>
 
-          <SelectField name="propertyType" label="Property type" placeholder="Choose a type" error={errorFor("propertyType")}>
-            {propertyTypes.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </SelectField>
-
-          <TextField name="preferredDate" label="Preferred date" type="date" optional error={errorFor("preferredDate")} />
-
-          {extras.map((id) => {
-            const field = extraFields[id];
-            return field.kind === "select" ? (
-              <SelectField key={id} name={id} label={field.label} placeholder="Choose" optional={!field.required} error={errorFor(id)}>
-                {field.options.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </SelectField>
-            ) : (
-              <TextField key={id} name={id} label={field.label} type="date" optional={!field.required} error={errorFor(id)} />
-            );
-          })}
-
-          <div className="sm:col-span-2">
+        <fieldset className="mt-10 border-t border-primary/10 pt-8">
+          <legend className="float-left w-full font-display text-xl font-bold text-primary">
+            Your details
+          </legend>
+          <div className="clear-both grid gap-5 pt-5 sm:grid-cols-2">
+            <div className="sm:col-span-2">
+              <TextField
+                name="name"
+                label="Full name"
+                autoComplete="name"
+                error={errorFor("name")}
+              />
+            </div>
             <TextField
-              name="details"
-              label="Additional details"
-              multiline
-              optional
-              hint="Anything we should know: access, pets, areas that need extra attention or questions for us."
-              error={errorFor("details")}
+              name="email"
+              label="Email"
+              type="email"
+              autoComplete="email"
+              error={errorFor("email")}
+            />
+            <TextField
+              name="phone"
+              label="Phone"
+              type="tel"
+              autoComplete="tel"
+              error={errorFor("phone")}
             />
           </div>
+        </fieldset>
+
+        <div className="mt-8">
+          <label className="flex cursor-pointer items-start gap-3 text-[0.9375rem] leading-[1.55]">
+            <input
+              type="checkbox"
+              name="consent"
+              aria-invalid={Boolean(errorFor("consent"))}
+              aria-describedby={
+                errorFor("consent") ? "quote-consent-error" : undefined
+              }
+              className="mt-0.5 size-5 shrink-0 cursor-pointer accent-action"
+            />
+            <span>
+              I agree to GreenCoreCleaning using my details to prepare my quote,
+              as described in the{" "}
+              <Link
+                href="/privacy-policy"
+                className="font-semibold text-action underline underline-offset-2"
+              >
+                Privacy Policy
+              </Link>
+              .
+            </span>
+          </label>
+          <FieldError id="quote-consent-error" message={errorFor("consent")} />
         </div>
-      </fieldset>
 
-      <fieldset className="mt-10 border-t border-primary/10 pt-8">
-        <legend className="float-left w-full font-display text-xl font-bold text-primary">Your details</legend>
-        <div className="clear-both grid gap-5 pt-5 sm:grid-cols-2">
-          <div className="sm:col-span-2">
-            <TextField name="name" label="Full name" autoComplete="name" error={errorFor("name")} />
-          </div>
-          <TextField name="email" label="Email" type="email" autoComplete="email" error={errorFor("email")} />
-          <TextField name="phone" label="Phone" type="tel" autoComplete="tel" error={errorFor("phone")} />
+        {state.status === "error" && (
+          <p
+            role="alert"
+            className="mt-6 rounded-control bg-red-50 px-4 py-3 text-[0.9375rem] font-medium text-red-800"
+          >
+            {state.message}
+          </p>
+        )}
+
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
+          <button
+            type="submit"
+            disabled={isPending}
+            className="relative inline-flex h-14 items-center justify-center gap-2 overflow-hidden rounded-control bg-action px-8 text-[1.0625rem] font-semibold text-white shadow-soft before:absolute before:inset-0 before:bg-primary before:opacity-0 before:transition-opacity hover:before:opacity-20 disabled:cursor-wait disabled:opacity-80"
+          >
+            {isPending ? (
+              <>
+                <span
+                  aria-hidden="true"
+                  className="relative size-5 animate-spin rounded-full border-2 border-white/40 border-t-white"
+                />
+                <span className="relative">Sending…</span>
+              </>
+            ) : (
+              <>
+                <span className="relative">Send my quote request</span>
+                <ArrowIcon className="relative size-5" />
+              </>
+            )}
+          </button>
+          <p className="text-sm text-charcoal">Free and no obligation.</p>
         </div>
-      </fieldset>
-
-      <div className="mt-8">
-        <label className="flex cursor-pointer items-start gap-3 text-[0.9375rem] leading-[1.55]">
-          <input
-            type="checkbox"
-            name="consent"
-            aria-invalid={Boolean(errorFor("consent"))}
-            aria-describedby={errorFor("consent") ? "quote-consent-error" : undefined}
-            className="mt-0.5 size-5 shrink-0 cursor-pointer accent-action"
-          />
-          <span>
-            I agree to GreenCoreCleaning using my details to prepare my quote, as described in the{" "}
-            <Link href="/privacy-policy" className="font-semibold text-action underline underline-offset-2">
-              Privacy Policy
-            </Link>
-            .
-          </span>
-        </label>
-        <FieldError id="quote-consent-error" message={errorFor("consent")} />
-      </div>
-
-      {state.status === "error" && (
-        <p role="alert" className="mt-6 rounded-control bg-red-50 px-4 py-3 text-[0.9375rem] font-medium text-red-800">
-          {state.message}
-        </p>
-      )}
-
-      <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
-        <button
-          type="submit"
-          disabled={isPending}
-          className="relative inline-flex h-14 items-center justify-center gap-2 overflow-hidden rounded-control bg-action px-8 text-[1.0625rem] font-semibold text-white shadow-soft before:absolute before:inset-0 before:bg-primary before:opacity-0 before:transition-opacity hover:before:opacity-20 disabled:cursor-wait disabled:opacity-80"
-        >
-          {isPending ? (
-            <>
-              <span aria-hidden="true" className="relative size-5 animate-spin rounded-full border-2 border-white/40 border-t-white" />
-              <span className="relative">Sending…</span>
-            </>
-          ) : (
-            <>
-              <span className="relative">Send my quote request</span>
-              <ArrowIcon className="relative size-5" />
-            </>
-          )}
-        </button>
-        <p className="text-sm text-charcoal">Free and no obligation.</p>
-      </div>
-    </form>
-  );
-}
-
-/* ---------- Field building blocks ---------- */
-
-type BaseFieldProps = {
-  name: string;
-  label: string;
-  error?: string;
-  hint?: string;
-  optional?: boolean;
-};
-
-function FieldLabel({ id, label, optional }: { id: string; label: string; optional?: boolean }) {
-  return (
-    <label htmlFor={id} className="text-sm font-semibold text-primary">
-      {label}
-      {optional && <span className="font-normal text-charcoal"> (optional)</span>}
-    </label>
-  );
-}
-
-function FieldError({ id, message }: { id: string; message?: string }) {
-  if (!message) return null;
-  return (
-    <p id={id} className="mt-1.5 flex items-start gap-1.5 text-sm font-medium text-red-700">
-      <svg aria-hidden="true" viewBox="0 0 20 20" className="mt-0.5 size-4 shrink-0" fill="currentColor">
-        <path d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16Zm-.75 4.5a.75.75 0 0 1 1.5 0v4a.75.75 0 0 1-1.5 0v-4ZM10 14.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z" />
-      </svg>
-      {message}
-    </p>
-  );
-}
-
-function describedBy(id: string, error?: string, hint?: string) {
-  const ids = [hint && `${id}-hint`, error && `${id}-error`].filter(Boolean);
-  return ids.length ? ids.join(" ") : undefined;
-}
-
-function TextField({
-  name,
-  label,
-  error,
-  hint,
-  optional,
-  type = "text",
-  autoComplete,
-  multiline,
-}: BaseFieldProps & { type?: string; autoComplete?: string; multiline?: boolean }) {
-  const id = `quote-${name}`;
-  const shared = {
-    id,
-    name,
-    required: !optional,
-    "aria-invalid": Boolean(error),
-    "aria-describedby": describedBy(id, error, hint),
-  };
-
-  return (
-    <div className="grid gap-1.5">
-      <FieldLabel id={id} label={label} optional={optional} />
-      {hint && (
-        <p id={`${id}-hint`} className="-mt-0.5 text-sm text-charcoal">
-          {hint}
-        </p>
-      )}
-      {multiline ? (
-        <textarea {...shared} rows={4} className={`${fieldClass} h-auto min-h-28 resize-y py-3.5 leading-[1.5]`} />
-      ) : (
-        <input {...shared} type={type} autoComplete={autoComplete} className={fieldClass} />
-      )}
-      <FieldError id={`${id}-error`} message={error} />
-    </div>
-  );
-}
-
-function SelectField({
-  name,
-  label,
-  error,
-  hint,
-  optional,
-  placeholder,
-  value,
-  onChange,
-  children,
-}: BaseFieldProps & {
-  placeholder: string;
-  value?: string;
-  onChange?: (value: string) => void;
-  children: React.ReactNode;
-}) {
-  const id = `quote-${name}`;
-  // Controlled when the parent needs the value, uncontrolled otherwise.
-  const valueProps = onChange
-    ? { value, onChange: (event: React.ChangeEvent<HTMLSelectElement>) => onChange(event.target.value) }
-    : { defaultValue: "" };
-
-  return (
-    <div className="grid gap-1.5">
-      <FieldLabel id={id} label={label} optional={optional} />
-      <div className="relative">
-        <select
-          id={id}
-          name={name}
-          required={!optional}
-          aria-invalid={Boolean(error)}
-          aria-describedby={describedBy(id, error, hint)}
-          className={selectClass}
-          {...valueProps}
-        >
-          <option value="" disabled>
-            {placeholder}
-          </option>
-          {children}
-        </select>
-        <SelectChevron />
-      </div>
-      <FieldError id={`${id}-error`} message={error} />
-    </div>
+      </form>
+    </FieldIdPrefix>
   );
 }

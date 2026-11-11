@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import heroImage from "@/public/images/hero-living-room-wide.jpg";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { Reveal, Settle } from "@/components/motion/Reveal";
@@ -175,14 +176,13 @@ export function Hero() {
             <Reveal delay={0.16} className="mt-10">
               <QuoteForm
                 secondaryAction={
-                  // Target section does not exist yet; wire it when "Our Work" is built.
-                  <a
-                    href="#our-work"
+                  <Link
+                    href="/projects"
                     className="inline-flex h-14 shrink-0 items-center justify-center gap-2.5 whitespace-nowrap rounded-control border border-primary/15 bg-white px-6 text-[1.0625rem] font-semibold text-primary transition-colors hover:border-primary/30 hover:bg-mint"
                   >
                     <PlayIcon />
                     See Our Work
-                  </a>
+                  </Link>
                 }
               />
             </Reveal>

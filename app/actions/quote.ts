@@ -1,5 +1,6 @@
 "use server";
 
+import { isSpam } from "@/lib/spam";
 import { quoteSchema, toFieldErrors, type QuoteFieldErrors } from "@/lib/quote-validation";
 
 export type QuoteState =
@@ -7,16 +8,9 @@ export type QuoteState =
   | { status: "success"; firstName: string }
   | { status: "error"; message: string; fieldErrors?: QuoteFieldErrors };
 
-/** Submissions faster than this are treated as bots. */
-const MIN_FILL_TIME_MS = 3000;
-
 export async function submitQuote(_previous: QuoteState, formData: FormData): Promise<QuoteState> {
-  // Spam traps. Bots get a fake success so they don't learn what failed.
-  const honeypot = formData.get("website");
-  const startedAt = Number(formData.get("startedAt"));
-  if (honeypot || (startedAt && Date.now() - startedAt < MIN_FILL_TIME_MS)) {
-    return { status: "success", firstName: "" };
-  }
+  // Bots get a fake success so they don't learn what gave them away.
+  if (isSpam(formData)) return { status: "success", firstName: "" };
 
   const result = quoteSchema.safeParse(Object.fromEntries(formData));
   if (!result.success) {

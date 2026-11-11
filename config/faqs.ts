@@ -5,7 +5,7 @@
 // layout. The owner must confirm them before launch, especially the ones
 // about products and rescheduling, which describe business policy.
 
-import { serviceAreas } from "./service-areas";
+import { formatAreaList } from "./service-areas";
 
 export type Faq = {
   id: string;
@@ -14,14 +14,6 @@ export type Faq = {
   /** True once the owner has confirmed the answer is accurate. */
   confirmed: boolean;
 };
-
-// "Hobart, Sandy Bay and Howrah"
-function listAreas() {
-  const names = serviceAreas.map((area) => area.name);
-  return names.length > 1
-    ? `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`
-    : names.join("");
-}
 
 export const faqs: Faq[] = [
   {
@@ -34,7 +26,7 @@ export const faqs: Faq[] = [
   {
     id: "suburbs",
     question: "Which suburbs do you service?",
-    answer: `We currently service ${listAreas()}. If you're nearby but outside these suburbs, get in touch and we'll let you know if we can help.`,
+    answer: `We currently service ${formatAreaList()}. If you're nearby but outside these suburbs, get in touch and we'll let you know if we can help.`,
     confirmed: true,
   },
   {

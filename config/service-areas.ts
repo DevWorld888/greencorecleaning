@@ -25,3 +25,11 @@ export const serviceAreas: ServiceArea[] = [
 export function serviceAreaHref(area: ServiceArea) {
   return area.hasPage ? `/service-areas/${area.slug}` : "/services";
 }
+
+/** Readable list of serviced suburbs, e.g. "Hobart, Sandy Bay and Howrah". */
+export function formatAreaList() {
+  const names = serviceAreas.map((area) => area.name);
+  return names.length > 1
+    ? `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`
+    : names.join("");
+}
