@@ -2,13 +2,16 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PostCard } from "@/components/blog/PostCard";
 import { CtaBand } from "@/components/layout/CtaBand";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
 import { hasRealPosts, posts } from "@/content/blog/posts";
+import { breadcrumbJsonLd } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
-  title: "Cleaning Tips & Guides · GreenCoreCleaning Blog, Hobart",
+  title: "Cleaning Tips & Guides for Hobart Homes",
   description:
     "Practical cleaning guides for Hobart homes, Airbnb hosts and renters moving out, from the GreenCoreCleaning team.",
+  alternates: { canonical: "/blog" },
   // Kept out of Google until real posts are published.
   robots: hasRealPosts ? undefined : { index: false, follow: true },
 };
@@ -18,6 +21,7 @@ export default function BlogPage() {
 
   return (
     <main className="flex-1">
+      <JsonLd data={breadcrumbJsonLd([{ name: "Blog", path: "/blog" }])} />
       {/* Page header: not animated, so it appears at once (see AboutIntro). */}
       <section aria-labelledby="blog-heading" className="bg-white pb-20 pt-32 md:pb-28 md:pt-40 lg:pb-32 lg:pt-48">
         <div className="mx-auto max-w-site px-5 md:px-10 lg:px-16">

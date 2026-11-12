@@ -2,14 +2,17 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { QuoteLink } from "@/components/quote/QuoteLink";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
 import { business } from "@/config/business";
 import { serviceAreaHref, serviceAreas } from "@/config/service-areas";
+import { breadcrumbJsonLd } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
-  title: "Contact Us · GreenCoreCleaning, Cleaning Services in Hobart",
+  title: "Contact Us",
   description:
     "Questions about our cleaning services in Hobart? Send us a message, or request a free, no-obligation quote.",
+  alternates: { canonical: "/contact" },
 };
 
 // Contact details only appear once they're verified in config/business.ts.
@@ -23,6 +26,7 @@ const contactMethods = [
 export default function ContactPage() {
   return (
     <main className="flex-1">
+      <JsonLd data={breadcrumbJsonLd([{ name: "Contact Us", path: "/contact" }])} />
       <section aria-labelledby="contact-heading" className="bg-white pb-20 pt-32 md:pb-28 md:pt-40 lg:pb-32 lg:pt-48">
         <div className="mx-auto max-w-site px-5 md:px-10 lg:px-16">
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-end lg:gap-8">

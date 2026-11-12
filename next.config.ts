@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
   },
   cacheComponents: true,
   partialPrefetching: true,
+  // Serve AVIF (about 20% lighter than WebP) to browsers that support it,
+  // WebP to the rest. next/image picks the right one automatically.
+  images: {
+    formats: ["image/avif", "image/webp"],
+  },
   turbopack: {
     rules: {
       "*.css": {

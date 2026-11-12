@@ -3,10 +3,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PostCard, PostCover, PostMeta } from "@/components/blog/PostCard";
 import { CtaBand } from "@/components/layout/CtaBand";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { business } from "@/config/business";
 import { services } from "@/config/services";
 import { posts } from "@/content/blog/posts";
 import { getPost, loadPostContent, relatedPosts } from "@/lib/blog";
+import { articleJsonLd, breadcrumbJsonLd } from "@/lib/structured-data";
 
 // Every post is prerendered at build time. Unknown slugs hit notFound() below.
 export function generateStaticParams() {
@@ -17,8 +19,9 @@ export async function generateMetadata({ params }: PageProps<"/blog/[slug]">): P
   const post = getPost((await params).slug);
   if (!post) return {};
   return {
-    title: `${post.title} · GreenCoreCleaning`,
+    title: post.title,
     description: post.description,
+    alternates: { canonical: `/blog/${post.slug}` },
     openGraph: { type: "article", title: post.title, description: post.description, publishedTime: post.date },
     // Placeholder posts must never be indexed.
     robots: post.placeholder ? { index: false, follow: true } : undefined,
@@ -33,20 +36,17 @@ export default async function PostPage({ params }: PageProps<"/blog/[slug]">) {
   const related = relatedPosts(post);
   const service = services.find((item) => item.slug === post.relatedService);
 
-  // Structured data so search engines understand this is an article.
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: post.title,
-    description: post.description,
-    datePublished: post.date,
-    author: { "@type": "Organization", name: business.name },
-    publisher: { "@type": "Organization", name: business.name },
-  };
-
   return (
     <main className="flex-1">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <JsonLd
+        data={[
+          articleJsonLd(post),
+          breadcrumbJsonLd([
+            { name: "Blog", path: "/blog" },
+            { name: post.title, path: `/blog/${post.slug}` },
+          ]),
+        ]}
+      />
 
       <article aria-labelledby="post-title" className="bg-white pb-20 pt-32 md:pb-28 md:pt-40 lg:pt-44">
         <header className="mx-auto max-w-[42rem] px-5 md:px-0">

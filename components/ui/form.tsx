@@ -1,10 +1,10 @@
 // Shared form styling, used by the hero quick-quote form and the full quote form.
 
 export const fieldClass =
-  "h-14 w-full rounded-control border border-primary/15 bg-white px-4 text-base text-primary transition-colors placeholder:text-charcoal/60 hover:border-primary/30 focus-visible:border-action aria-invalid:border-red-700";
+  "h-14 w-full rounded-control border border-primary/15 bg-white px-4 text-base text-primary transition-colors placeholder:text-charcoal/75 hover:border-primary/30 focus-visible:border-action aria-invalid:border-red-700";
 
 /** <select> styling: the placeholder option shows muted, with room for the chevron. */
-export const selectClass = `${fieldClass} appearance-none pr-11 has-[option[value='']:checked]:text-charcoal/60`;
+export const selectClass = `${fieldClass} appearance-none pr-11 has-[option[value='']:checked]:text-charcoal/75`;
 
 export function SelectChevron() {
   return (

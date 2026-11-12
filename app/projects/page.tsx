@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
 import { CtaBand } from "@/components/layout/CtaBand";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { ProjectsEmpty } from "@/components/projects/ProjectsEmpty";
 import { ProjectsGallery } from "@/components/projects/ProjectsGallery";
 import { hasRealProjects, projects } from "@/config/projects";
+import { breadcrumbJsonLd } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
-  title: "Our Work · Cleaning Projects in Hobart · GreenCoreCleaning",
+  title: "Our Work: Cleaning Projects in Hobart",
   description:
     "See before-and-after results from our cleaning work in Hobart, then request your free, no-obligation quote.",
+  alternates: { canonical: "/projects" },
   // Kept out of Google until real projects are published (placeholders or the
   // "coming soon" message aren't worth indexing).
   robots: hasRealProjects ? undefined : { index: false, follow: true },
@@ -16,6 +19,7 @@ export const metadata: Metadata = {
 export default function ProjectsPage() {
   return (
     <main className="flex-1">
+      <JsonLd data={breadcrumbJsonLd([{ name: "Our Work", path: "/projects" }])} />
       {/* Page header: not animated, so it appears at once (see AboutIntro). */}
       <section aria-labelledby="projects-heading" className="bg-white pb-20 pt-32 md:pb-28 md:pt-40 lg:pb-32 lg:pt-48">
         <div className="mx-auto max-w-site px-5 md:px-10 lg:px-16">

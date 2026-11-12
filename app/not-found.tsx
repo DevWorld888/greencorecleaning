@@ -4,7 +4,7 @@ import { QuoteLink } from "@/components/quote/QuoteLink";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
 
 export const metadata: Metadata = {
-  title: "Coming soon · GreenCoreCleaning",
+  title: "Page coming soon",
 };
 
 const shortcuts = [
