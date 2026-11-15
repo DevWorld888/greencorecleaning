@@ -87,6 +87,81 @@
   block-size: auto;
 }
 
+/* ---------- Entrance animations (pure CSS, no JavaScript) ----------
+   Used through <Reveal> and <Settle> (components/motion/Reveal.tsx).
+   Content is never hidden waiting for JavaScript: if an animation can't run,
+   the element simply shows in its final state. */
+:root {
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    translate: 0 12px;
+  }
+}
+
+@keyframes rise-in {
+  from {
+    translate: 0 12px;
+  }
+}
+
+@keyframes settle-in {
+  from {
+    scale: 1.04;
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    translate: 0 -8px;
+  }
+}
+
+/* On page load (above the fold). --reveal-delay staggers siblings. */
+.reveal-load {
+  animation: reveal-in 0.7s var(--ease-out-expo) var(--reveal-delay, 0s) both;
+}
+
+/* On page load, without fading (for the main heading, so it's visible at once). */
+.rise-load {
+  animation: rise-in 0.7s var(--ease-out-expo) var(--reveal-delay, 0s) both;
+}
+
+/* Hero photo: a slow settle from a slight zoom. */
+.settle-in {
+  animation: settle-in 1.4s var(--ease-out-expo) both;
+}
+
+/* Small pop for things that appear on demand (mobile menu, room tabs). */
+.pop-in {
+  animation: pop-in 0.25s ease-out both;
+}
+
+/* On scroll: tied to the element's position in the viewport, so it needs no
+   JavaScript observer. Fully shown after 240px of scrolling into view.
+   Browsers without scroll-driven animations just show the content. */
+@supports (animation-timeline: view()) {
+  .reveal-view {
+    animation: reveal-in linear both;
+    animation-timeline: view();
+    animation-range: entry 0px entry 240px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-load,
+  .rise-load,
+  .settle-in,
+  .pop-in,
+  .reveal-view {
+    animation: none;
+  }
+}
+
 /* 404 sign sparkles (stopped by the reduced-motion rule below) */
 @keyframes twinkle {
   0%,

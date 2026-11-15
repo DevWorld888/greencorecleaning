@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion } from "motion/react";
 import type { NavItem } from "@/config/navigation";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
 
@@ -41,7 +40,9 @@ export function HeaderNav({ items, cta }: HeaderNavProps) {
                   href={item.href}
                   aria-current={active ? "page" : undefined}
                   className={`relative py-2 text-[0.9375rem] font-semibold transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-left after:rounded-full after:bg-secondary after:transition-transform hover:text-action ${
-                    active ? "text-primary after:scale-x-100" : "text-primary/80 after:scale-x-0"
+                    active
+                      ? "text-primary after:scale-x-100"
+                      : "text-primary/80 after:scale-x-0"
                   }`}
                 >
                   {item.label}
@@ -87,47 +88,42 @@ export function HeaderNav({ items, cta }: HeaderNavProps) {
         </button>
       </div>
 
-      <AnimatePresence>
-        {open && (
-          <motion.nav
-            id="mobile-menu"
-            aria-label="Main"
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className="absolute inset-x-5 top-full rounded-card border border-primary/5 bg-white p-3 shadow-soft md:inset-x-10 lg:hidden"
+      {/* Mobile menu: a CSS pop-in when it opens; it closes instantly. */}
+      {open && (
+        <nav
+          id="mobile-menu"
+          aria-label="Main"
+          className="pop-in absolute inset-x-5 top-full rounded-card border border-primary/5 bg-white p-3 shadow-soft md:inset-x-10 lg:hidden"
+        >
+          <ul className="grid">
+            {items.map((item) => {
+              const active = isActive(pathname, item.href);
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    aria-current={active ? "page" : undefined}
+                    onClick={() => setOpen(false)}
+                    className={`flex h-12 items-center rounded-control px-4 font-semibold transition-colors hover:bg-mint ${
+                      active ? "bg-mint text-action" : "text-primary"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+          <Link
+            href={cta.href}
+            onClick={() => setOpen(false)}
+            className="mt-2 flex h-12 items-center justify-center gap-2 rounded-control bg-primary font-semibold text-white"
           >
-            <ul className="grid">
-              {items.map((item) => {
-                const active = isActive(pathname, item.href);
-                return (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      aria-current={active ? "page" : undefined}
-                      onClick={() => setOpen(false)}
-                      className={`flex h-12 items-center rounded-control px-4 font-semibold transition-colors hover:bg-mint ${
-                        active ? "bg-mint text-action" : "text-primary"
-                      }`}
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-            <Link
-              href={cta.href}
-              onClick={() => setOpen(false)}
-              className="mt-2 flex h-12 items-center justify-center gap-2 rounded-control bg-primary font-semibold text-white"
-            >
-              {cta.label}
-              <ArrowIcon className="size-4" />
-            </Link>
-          </motion.nav>
-        )}
-      </AnimatePresence>
+            {cta.label}
+            <ArrowIcon className="size-4" />
+          </Link>
+        </nav>
+      )}
     </>
   );
 }

@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { MotionProvider } from "@/components/motion/MotionProvider";
 import { Reveal } from "@/components/motion/Reveal";
 import { QuoteLink } from "@/components/quote/QuoteLink";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
@@ -32,47 +31,45 @@ export function ServiceCategorySection({ category, tinted = false }: { category:
       aria-labelledby={`${id}-heading`}
       className={`scroll-mt-8 py-20 md:py-24 lg:py-28 ${tinted ? "bg-mint" : "bg-white"}`}
     >
-      <MotionProvider>
-        <div className="mx-auto max-w-site px-5 md:px-10 lg:px-16">
-          <Reveal inView className="max-w-2xl">
-            <h2
-              id={`${id}-heading`}
-              className="text-[clamp(2rem,1.4rem+2vw,3.25rem)] font-extrabold leading-[1.08] tracking-[-0.02em]"
-            >
-              {category} cleaning
-            </h2>
-            <p className="mt-4 text-lg leading-[1.6]">{categoryDescriptions[category]}</p>
-          </Reveal>
+      <div className="mx-auto max-w-site px-5 md:px-10 lg:px-16">
+        <Reveal inView className="max-w-2xl">
+          <h2
+            id={`${id}-heading`}
+            className="text-[clamp(2rem,1.4rem+2vw,3.25rem)] font-extrabold leading-[1.08] tracking-[-0.02em]"
+          >
+            {category} cleaning
+          </h2>
+          <p className="mt-4 text-lg leading-[1.6]">{categoryDescriptions[category]}</p>
+        </Reveal>
 
-          {featured.length > 0 && (
-            <div className="mt-14 grid gap-16 lg:gap-24">
-              {featured.map((service, index) => (
-                <FeaturedRow key={service.slug} service={service} reversed={index % 2 === 1} />
-              ))}
-            </div>
-          )}
+        {featured.length > 0 && (
+          <div className="mt-14 grid gap-16 lg:gap-24">
+            {featured.map((service, index) => (
+              <FeaturedRow key={service.slug} service={service} reversed={index % 2 === 1} />
+            ))}
+          </div>
+        )}
 
-          {others.length > 0 && (
-            <ul className={`border-b border-primary/10 ${featured.length > 0 ? "mt-20" : "mt-12"}`}>
-              {others.map((service) => (
-                <li key={service.slug} id={service.slug} className="scroll-mt-8 border-t border-primary/10">
-                  <Reveal inView className="grid gap-4 py-8 lg:grid-cols-12 lg:items-center lg:gap-8">
-                    <h3 className="text-2xl font-bold lg:col-span-4">{service.name}</h3>
-                    <p className="max-w-[52ch] leading-[1.6] lg:col-span-5">{service.summary}</p>
-                    <div className="flex flex-wrap items-center gap-x-6 gap-y-3 lg:col-span-3 lg:justify-end">
-                      <QuoteLink service={service.slug} className={quoteButtonClass}>
-                        <span className="relative">Get a quote</span>
-                        <ArrowIcon className="relative size-4" />
-                      </QuoteLink>
-                      <LearnMore service={service} />
-                    </div>
-                  </Reveal>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      </MotionProvider>
+        {others.length > 0 && (
+          <ul className={`border-b border-primary/10 ${featured.length > 0 ? "mt-20" : "mt-12"}`}>
+            {others.map((service) => (
+              <li key={service.slug} id={service.slug} className="scroll-mt-8 border-t border-primary/10">
+                <Reveal inView className="grid gap-4 py-8 lg:grid-cols-12 lg:items-center lg:gap-8">
+                  <h3 className="text-2xl font-bold lg:col-span-4">{service.name}</h3>
+                  <p className="max-w-[52ch] leading-[1.6] lg:col-span-5">{service.summary}</p>
+                  <div className="flex flex-wrap items-center gap-x-6 gap-y-3 lg:col-span-3 lg:justify-end">
+                    <QuoteLink service={service.slug} className={quoteButtonClass}>
+                      <span className="relative">Get a quote</span>
+                      <ArrowIcon className="relative size-4" />
+                    </QuoteLink>
+                    <LearnMore service={service} />
+                  </div>
+                </Reveal>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </section>
   );
 }

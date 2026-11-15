@@ -1,11 +1,8 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { motion } from "motion/react";
 import { CheckBadge } from "@/components/ui/CheckBadge";
 import type { Room } from "@/config/cleaning-checklist";
-
-const easeOutExpo = [0.16, 1, 0.3, 1] as const;
 
 // ARIA tabs: arrow keys move between rooms, only the active tab is in the tab
 // order. Every panel stays in the HTML (inactive ones are `hidden`), so search
@@ -79,11 +76,9 @@ export function RoomChecklist({ rooms }: { rooms: Room[] }) {
             hidden={!selected}
             className="mt-8"
           >
-            <motion.div
-              initial={false}
-              animate={selected ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
-              transition={{ duration: 0.5, ease: easeOutExpo }}
-            >
+            {/* CSS animations restart whenever a hidden panel is shown, so each
+                tab switch gets a small entrance with no JavaScript. */}
+            <div className="pop-in">
               <div className="flex items-baseline justify-between gap-4 border-b border-white/15 pb-4">
                 <h3 className="text-2xl font-bold text-white">{room.name}</h3>
                 <p className="text-sm text-white/70">{room.tasks.length} tasks included</p>
@@ -99,7 +94,7 @@ export function RoomChecklist({ rooms }: { rooms: Room[] }) {
                   </li>
                 ))}
               </ul>
-            </motion.div>
+            </div>
           </div>
         );
       })}
