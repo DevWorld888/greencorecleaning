@@ -349,7 +349,7 @@ export function QuoteRequestForm() {
               className="mt-0.5 size-5 shrink-0 cursor-pointer accent-action"
             />
             <span>
-              I agree to GreenCoreCleaning using my details to prepare my quote,
+              I agree to Green Core Cleaning using my details to prepare my quote,
               as described in the{" "}
               <Link
                 href="/privacy-policy"

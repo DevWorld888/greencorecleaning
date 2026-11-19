@@ -10,7 +10,7 @@ import { breadcrumbJsonLd } from "@/lib/structured-data";
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "Meet GreenCoreCleaning, a local cleaning business in Hobart. Learn how we work and request a free, no-obligation quote.",
+    "Meet Green Core Cleaning, a local cleaning business in Hobart. Learn how we work and request a free, no-obligation quote.",
   alternates: { canonical: "/about" },
 };
 

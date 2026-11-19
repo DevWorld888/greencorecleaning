@@ -28,7 +28,7 @@ export function AboutStory() {
           </div>
           <p className="mt-8 border-t border-primary/10 pt-6">
             <span className="block font-display text-xl font-bold text-primary">{story.founderName}</span>
-            <span className="text-charcoal">{story.founderRole}, GreenCoreCleaning</span>
+            <span className="text-charcoal">{story.founderRole}, Green Core Cleaning</span>
           </p>
         </Reveal>
       </div>

@@ -9,7 +9,7 @@ import { HeaderNav } from "./HeaderNav";
 // The browser downloads only the version that matches.
 function Logo() {
   const sizes = "260px";
-  const common = { alt: "GreenCoreCleaning", sizes, fetchPriority: "high" as const };
+  const common = { alt: "Green Core Cleaning", sizes, fetchPriority: "high" as const };
   const {
     props: { srcSet: fullSrcSet },
   } = getImageProps({ ...common, src: logo });
@@ -35,7 +35,7 @@ export function Header() {
   return (
     <header className="absolute inset-x-0 top-0 z-30">
       <div className="relative mx-auto flex h-20 max-w-site items-center justify-between gap-6 px-5 md:px-10 lg:h-24 lg:px-16">
-        <Link href="/" aria-label="GreenCoreCleaning home" className="shrink-0">
+        <Link href="/" aria-label="Green Core Cleaning home" className="shrink-0">
           <Logo />
         </Link>
 

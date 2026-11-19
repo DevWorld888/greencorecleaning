@@ -115,14 +115,14 @@ export const services: Service[] = [
     name: "Window Cleaning",
     category: "Specialist",
     hasPage: false,
-    summary: "Streak-free glass, frames and sills, inside and out.",
+    summary: "Streak-free internal and external glass cleaning.",
   },
   {
     slug: "caulking",
     name: "Caulking",
     category: "Specialist",
     hasPage: false,
-    summary: "Fresh, clean sealant lines for bathrooms, kitchens and wet areas.",
+    summary: "Careful internal and external caulking for a clean, polished finish.",
   },
 ];
 

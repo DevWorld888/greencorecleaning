@@ -1,20 +1,24 @@
-// Verified business details. The footer (and later the structured data) only
-// shows a detail once it has a value here, so nothing unconfirmed is published.
+// Verified business details: the single source of the NAP (Name, Address,
+// Phone). The footer, contact page and structured data only show a detail once
+// it has a value here, so nothing unconfirmed is published. Keep these values
+// identical to the Google Business Profile.
 //
-// Pending from the owner: ABN, social media links, phone, WhatsApp, email.
+// Pending from the owner: social media links, email.
 
 export type SocialNetwork = "Instagram" | "Facebook";
 
 export const business = {
-  name: "GreenCoreCleaning",
-  /** Service area, not a street address. */
+  /** Exactly as it appears on Google Business Profile. */
+  name: "Green Core Cleaning",
+  /** Service area, not a street address (service-area business). */
   area: "Hobart, Tasmania",
-  /** e.g. "12 345 678 901". */
-  abn: null as string | null,
+  abn: "12 149 192 639" as string | null,
   socials: [] as { network: SocialNetwork; href: string }[],
-  /** As customers dial it, e.g. "0400 123 456". Becomes a tap-to-call link. */
-  phone: null as string | null,
+  /** As customers dial it. Becomes a tap-to-call link. */
+  phone: "0432 004 267" as string | null,
+  /** International format for structured data (what Google recommends). */
+  phoneInternational: "+61 432 004 267" as string | null,
   /** International format without + or spaces, e.g. "61400123456". Opens a chat. */
-  whatsapp: null as string | null,
+  whatsapp: "61432004267" as string | null,
   email: null as string | null,
 };

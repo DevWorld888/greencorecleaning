@@ -60,7 +60,7 @@ Most profitable services reported by the business: Airbnb Cleaning and Regular H
 
 ## Brand Commitments
 
-- Name: GreenCoreCleaning.
+- Name: Green Core Cleaning (owner-confirmed, matches Google Business Profile).
 - Approved brand palette (owner-confirmed, revised 2026-11-05 to match the logo): Primary `#0F4557` (headings, navigation, corporate UI), Secondary `#509948` (brand accent, icons, large display text), Accessible Green `#3F7D38` (button fills and small green text), Light Sky Blue `#DCEEF7`, Soft Green `#F0F8ED`, White `#FFFFFF`, Dark Charcoal `#263238`. White dominates.
 - Approved typefaces: Schibsted Grotesk (headings), Geist (body).
 - Approved visual reference: `.impeccable/references/hero-reference.png` is the owner's primary visual direction (premium, modern, visually engaging; not plain corporate).

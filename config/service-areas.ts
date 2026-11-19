@@ -1,7 +1,9 @@
 // Suburbs the business currently services. Read by the homepage service-area
 // map and list, and by future /service-areas/[slug] pages.
 //
-// Confirmed by the owner for launch: Hobart, Sandy Bay and Howrah.
+// Confirmed by the owner: Hobart, Sandy Bay, Howrah, Mornington, Rokeby and
+// Kingston (their main areas). Other suburbs are serviced on request.
+// Keep this list identical to the Google Business Profile service areas.
 // To add a suburb, add a line here. Its name must match the OpenStreetMap
 // locality name used in data/hobart-map.ts so it appears on the map.
 
@@ -20,6 +22,9 @@ export const serviceAreas: ServiceArea[] = [
   { slug: "hobart", name: "Hobart", hasPage: false },
   { slug: "sandy-bay", name: "Sandy Bay", hasPage: true },
   { slug: "howrah", name: "Howrah", hasPage: true },
+  { slug: "mornington", name: "Mornington", hasPage: false },
+  { slug: "rokeby", name: "Rokeby", hasPage: false },
+  { slug: "kingston", name: "Kingston", hasPage: false },
 ];
 
 export function serviceAreaHref(area: ServiceArea) {

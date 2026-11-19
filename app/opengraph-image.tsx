@@ -1,7 +1,7 @@
 // Default social preview for every page that doesn't have its own.
 import { ogSize, renderOgImage } from "@/lib/og-image";
 
-export const alt = "GreenCoreCleaning: cleaning services in Hobart";
+export const alt = "Green Core Cleaning: cleaning services in Hobart";
 export const size = ogSize;
 export const contentType = "image/png";
 

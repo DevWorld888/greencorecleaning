@@ -15,14 +15,14 @@ export function AboutIntro() {
     >
       <div className="mx-auto max-w-site px-5 md:px-10 lg:px-16">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-end lg:gap-8">
-          {/* The H1 scales with its column (cqi), not the viewport, so the long
-              single word "GreenCoreCleaning" always fits on one line. */}
+          {/* The H1 scales with its column (cqi), not the viewport, so the business
+              name keeps a comfortable size at every width. */}
           <div className="@container min-w-0 lg:col-span-7">
             <h1
               id="about-heading"
               className="text-[min(4.75rem,10cqi)] font-extrabold leading-[1.02] tracking-[-0.03em]"
             >
-              About <span className="text-secondary">GreenCoreCleaning</span>
+              About <span className="text-secondary">Green Core Cleaning</span>
             </h1>
           </div>
           <p className="max-w-[46ch] text-lg leading-[1.6] md:text-xl lg:col-span-5 lg:pb-2">

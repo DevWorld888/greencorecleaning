@@ -10,7 +10,7 @@ import { breadcrumbJsonLd } from "@/lib/structured-data";
 export const metadata: Metadata = {
   title: "Cleaning Tips & Guides for Hobart Homes",
   description:
-    "Practical cleaning guides for Hobart homes, Airbnb hosts and renters moving out, from the GreenCoreCleaning team.",
+    "Practical cleaning guides for Hobart homes, Airbnb hosts and renters moving out, from the Green Core Cleaning team.",
   alternates: { canonical: "/blog" },
   // Kept out of Google until real posts are published.
   robots: hasRealPosts ? undefined : { index: false, follow: true },

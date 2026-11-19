@@ -9,7 +9,7 @@ const fallbackUrl = "https://greencorecleaning.com.au"; // PROVISIONAL
 
 export const site = {
   url: (process.env.NEXT_PUBLIC_SITE_URL || fallbackUrl).replace(/\/$/, ""),
-  name: "GreenCoreCleaning",
+  name: "Green Core Cleaning",
   locale: "en_AU",
   /** Used when a page doesn't set its own description. */
   description:

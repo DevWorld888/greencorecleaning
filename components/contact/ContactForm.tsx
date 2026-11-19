@@ -108,7 +108,7 @@ export function ContactForm() {
               className="mt-0.5 size-5 shrink-0 cursor-pointer accent-action"
             />
             <span>
-              I agree to GreenCoreCleaning using my details to reply to my message, as described in the{" "}
+              I agree to Green Core Cleaning using my details to reply to my message, as described in the{" "}
               <Link href="/privacy-policy" className="font-semibold text-action underline underline-offset-2">
                 Privacy Policy
               </Link>

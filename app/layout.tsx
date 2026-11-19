@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Schibsted_Grotesk } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { isIndexable, site } from "@/config/site";
 import { businessJsonLd, websiteJsonLd } from "@/lib/structured-data";
@@ -44,6 +45,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Header />
         {children}
         <Footer />
+        <WhatsAppButton />
       </body>
     </html>
   );

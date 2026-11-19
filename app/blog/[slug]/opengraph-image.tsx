@@ -3,7 +3,7 @@ import { posts } from "@/content/blog/posts";
 import { getPost } from "@/lib/blog";
 import { ogSize, renderOgImage } from "@/lib/og-image";
 
-export const alt = "GreenCoreCleaning blog article";
+export const alt = "Green Core Cleaning blog article";
 export const size = ogSize;
 export const contentType = "image/png";
 
@@ -15,6 +15,6 @@ export default async function Image({ params }: { params: Promise<{ slug: string
   const post = getPost((await params).slug);
   return renderOgImage({
     title: post?.title ?? "Cleaning tips and guides",
-    subtitle: post ? `${post.category} guide` : "GreenCoreCleaning blog",
+    subtitle: post ? `${post.category} guide` : "Green Core Cleaning blog",
   });
 }

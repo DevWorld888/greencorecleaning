@@ -33,7 +33,7 @@ export function businessJsonLd() {
         itemOffered: { "@type": "Service", name: service.name, description: service.summary },
       })),
     },
-    ...(business.phone && { telephone: business.phone }),
+    ...(business.phoneInternational && { telephone: business.phoneInternational }),
     ...(business.email && { email: business.email }),
     ...(business.abn && { taxID: business.abn }),
     ...(business.socials.length > 0 && { sameAs: business.socials.map((social) => social.href) }),
